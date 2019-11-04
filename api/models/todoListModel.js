@@ -31,6 +31,7 @@ var manufacturersListSchema = new Schema({
     type: String,
     required: 'Kindly enter the name of the task'
   },
+  
 });
 
 module.exports = mongoose.model('Tasks', ProductListSchema);

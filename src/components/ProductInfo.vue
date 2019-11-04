@@ -1,6 +1,7 @@
 <template>
     <div>
-        {{product}}
+        <div>{{product}}</div>
+        <button @click="deleteProduct()">Delete</button>
     </div>
 </template>
 <script>
@@ -24,6 +25,13 @@
                 this.product = response.data;
             })
               //Number(this.$route.params.id)
+        },
+        methods : {
+            deleteProduct(){
+                Vue.axios.delete("http://localhost:3000/tasks/"+this.$route.params.id).then(response => {
+                console.log(response.data);
+            })
+            }
         }
     }
 </script>

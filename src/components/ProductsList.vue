@@ -154,7 +154,6 @@
     </div>
 </template>
 <script>
-    import products from '../data/products.js'
     import Vue from 'vue'
     import Vuex from 'vuex'
     import axios from 'axios'

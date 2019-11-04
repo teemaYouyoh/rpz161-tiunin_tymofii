@@ -25,14 +25,16 @@
 					<span>
 						<button @click = "showAllManufacturers()">Всі виробники</button>
 					</span>
+
 					<span v-for="element in manufacturers" >
-						<input :value="element.name" v-model="isManufacturer" type="checkbox" name="manufacturer">
-						{{element.name}}
+						<input :value="element" v-model="isManufacturer" type="checkbox" name="manufacturer">
+						{{element}}
 					</span>
+
 					<!-- <select name="select_manufacturer" v-model="selectedManufacturer">
 
 						<option value="noSelected" selected="">Не обрано</option>
-						<option v-for = 'element in manufacturers' :value="element.name">{{element.name}} </option>
+						<option v-for = 'element in manufacturers' :value="element">{{element}} </option>
 
 					</select> -->
 
@@ -42,6 +44,8 @@
 						<option value="downPrice">Спочатку найбільша</option>
 					</select>
 					<!-- </form> -->
+					
+					<button @click="addProduct()">Add product</button>
 
 				</div>
 			</div>
@@ -49,7 +53,7 @@
 			<div class="new_products">
 				<div class="container">
 						<!-- filteredProducts -->
-						<div class="product" v-for = "(product,index) in productsList"> 
+						<div class="product" v-for = "(product,index) in filteredProducts"> 
 									<img :src="product.image" alt="">
 									<div class="txt">
 										<router-link :to="'/product/'+product._id" class="txt1" href = "">{{product.name.toUpperCase()}}</router-link>
@@ -59,6 +63,8 @@
 						</div>			
 				</div>
 			</div>
+
+			
 
 		</div>
     </div>
@@ -85,33 +91,37 @@
         mounted : function(){
             Vue.axios.get("http://localhost:3000/tasks").then(response => {
                 console.log(response.data);
-                this.productsList = response.data;
+				this.productsList = response.data;
+				this.productsList.forEach(element => {
+					if(this.manufacturers.indexOf(element.manufacturer) == -1)
+						this.manufacturers.push(element.manufacturer);
+				});
+				this.showAllManufacturers();
+				this.sortProducts();
             })
-            //this.showAllManufacturers();
-            this.sortProducts();
         },
         methods : {
-            showAllManufacturers : function(){
-                this.isManufacturer.length = 0;
-                this.manufacturers.forEach(element => {
-                    this.isManufacturer.push(element.name);
-                });
+            showAllManufacturers(){
+                this.isManufacturer = this.manufacturers;
             },
-            sortProducts : function(){
+            sortProducts(){
                 switch(this.isSort) {
-                    case 'newestProducts' : {this.productsList.sort((a, b) => +a.id < +b.id ? 1 : -1); break;}
+                    case 'newestProducts' : {this.productsList.sort((a, b) => +a._id < +b._id ? 1 : -1); break;}
                     case 'upPrice' : {this.productsList.sort((a, b) => +a.price > +b.price ? 1 : -1); break;}
                     case 'downPrice' : {this.productsList.sort((a, b) => +a.price < +b.price ? 1 : -1); break;}
                     default : break;
                 }
-            }
+			},
+			addProduct(){
+				this.$router.push('/addProduct');
+			}
         },
         computed : {
-            // filteredProducts : function(){
-            //     return this.productsList.filter(element => {
-            //         return this.isManufacturer.includes(element.manufacturer);
-            //     })
-            // },
+            filteredProducts : function(){
+                return this.productsList.filter(element => {
+                    return this.isManufacturer.includes(element.manufacturer);
+                })
+            },
         },
     }
 </script>

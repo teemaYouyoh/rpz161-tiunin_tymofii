@@ -1,11 +1,11 @@
 'use strict';
 module.exports = function(app) {
   var productsList = require('../controllers/todoListController');
-
+  
   // todoList Routes
   app.route('/tasks')
-    .get(productsList.list_all_tasks)
-    .post(productsList.create_a_task);
+    .post(productsList.create_a_task)
+    .get(productsList.list_all_tasks);
 
 
   app.route('/tasks/:taskId')
