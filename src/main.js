@@ -13,7 +13,7 @@ import store from './store.js'
 const routes = [
     { path: '/', component: ProductsList },
     { path: '/shop', component: Shop },
-    { path: '/addProduct', component: AddProduct },
+    { path: '/add-product', component: AddProduct },
     { path: '/product/:id', component: ProductInfo },
     { path: '/cart', component: Cart },
 ]
