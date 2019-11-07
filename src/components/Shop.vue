@@ -1,20 +1,7 @@
 <template>
     <div>
-<header>
-			<div class="container">
 
-				<div class="header-title">CardHouse</div>
-				<div class="header-menu">
-					<ul>
-						<li><a href="index.html">Головна</a></li>
-						<li><a class="active-menu-link" href="shop.php">Магазин</a></li>
-						<li><a href="#">Про Нас</a></li>
-						<li><a href="contacts.html">Контакти</a></li>
-					</ul>
-				</div>
-				<div class="clear-line"></div>
-			</div>
-		</header>
+		<Header />
 
 		<div class="main-wrapper">
 			
