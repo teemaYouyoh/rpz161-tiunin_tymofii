@@ -1,35 +1,33 @@
 <template>
     <div>
-<header>
-			<div class="container">
-
-				<div class="header-title">CardHouse</div>
-				<div class="header-menu">
-					<ul>
-						<li><a href="index.html">Головна</a></li>
-						<li><a class="active-menu-link" href="shop.php">Магазин</a></li>
-						<li><a href="#">Про Нас</a></li>
-						<li><a href="contacts.html">Контакти</a></li>
-					</ul>
-				</div>
-				<div class="clear-line"></div>
-			</div>
-		</header>
+		
+		<Header/>
 
 		<div class="main-wrapper">
 			
 			<div class="inputs">
 				<div class="container">
-					<!-- <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST"> -->
 					
-					<span>
-						<button @click = "showAllManufacturers()">Всі виробники</button>
-					</span>
+					<h2>Фільтри</h2>
 
-					<span v-for="element in manufacturers" >
-						<input :value="element" v-model="isManufacturer" type="checkbox" name="manufacturer">
-						{{element}}
-					</span>
+					<div>
+						<h3>Сортування</h3>
+						<select v-model="isSort" @change="sortProducts()">
+							<option value="newestProducts">Спочатку нові товари</option>
+							<option value="upPrice">Спочатку найменша</option>
+							<option value="downPrice">Спочатку найбільша</option>
+						</select>
+					</div>
+
+					<div>
+						<h3>Виробники</h3>
+						<div v-for="element in manufacturers" >
+							<input :value="element" v-model="isManufacturer" type="checkbox" name="manufacturer">
+							{{element}}
+						</div>
+						<button @click = "showAllManufacturers()">Всі виробники</button>
+					</div>
+
 
 					<!-- <select name="select_manufacturer" v-model="selectedManufacturer">
 
@@ -37,35 +35,31 @@
 						<option v-for = 'element in manufacturers' :value="element">{{element}} </option>
 
 					</select> -->
-
-					<select v-model="isSort" @change="sortProducts()">
-						<option value="newestProducts">Спочатку нові товари</option>
-						<option value="upPrice">Спочатку найменша</option>
-						<option value="downPrice">Спочатку найбільша</option>
-					</select>
-					<!-- </form> -->
 					
-					<button @click="addProduct()">Add product</button>
+					
+					<!-- <button @click="addProduct()">Add product</button> -->
 
 				</div>
 			</div>
 			
-			<div class="new_products">
+			<div class="products">
 				<div class="container">
-						<!-- filteredProducts -->
-						<div class="product" v-for = "(product,index) in filteredProducts"> 
-									<img :src="product.image" alt="">
-									<div class="txt">
-										<router-link :to="'/product/'+product._id" class="txt1" href = "">{{product.name.toUpperCase()}}</router-link>
-										<div class="price">{{product.price + " грн"}}</div>
-										<a class="purchase" href="">В КОРЗИНУ</a>
-									</div>
-						</div>			
+
+					<h2>Товари</h2>
+
+					<div class="product" v-for = "(product,index) in filteredProducts"> 
+						<img :src="product.image" :alt="product.name">
+						<div class="txt">
+							<router-link :to="'/product/'+product._id" class="txt1" href = "">{{product.name.toUpperCase()}}</router-link>
+							<div class="price">{{product.price + " грн"}}</div>
+							<button @click="addProductToCart(product)" class="purchase">В КОРЗИНУ</button>
+							<!-- class="purchase"  -->
+						</div>
+					</div>
+
 				</div>
-			</div>
-
-			
-
+			</div>			
+			<Footer/>
 		</div>
     </div>
 </template>
@@ -75,17 +69,25 @@
     import Vue from 'vue'
     import Vuex from 'vuex'
     import axios from 'axios'
-    import VueAxios from 'vue-axios'
+	import VueAxios from 'vue-axios'
+	
+	import Header from './Header.vue'
+	import Footer from './Footer.vue'
 
     Vue.use(VueAxios, axios)
 
     export default {
+		components : {
+			Header,
+			Footer
+		},
         data(){
             return{
                 productsList : [],
                 manufacturers : [],
                 isManufacturer : [],
-                isSort : 'newestProducts',   
+				isSort : 'newestProducts',   
+				currentUser : null
             }
         },
         mounted : function(){
@@ -98,7 +100,9 @@
 				});
 				this.showAllManufacturers();
 				this.sortProducts();
-            })
+			});
+			this.currentUser = this.$store.getters.getCurrentUser;
+			
         },
         methods : {
             showAllManufacturers(){
@@ -114,6 +118,9 @@
 			},
 			addProduct(){
 				this.$router.push('/addProduct');
+			},
+			addProductToCart(value){
+				this.$store.commit('addProductToCart', value);
 			}
         },
         computed : {
@@ -145,55 +152,21 @@ h1{
 	font-size: 44px;
 }
 
+h2{
+	/* color: #3c4858; */
+	color: black;
+	font-size: 34px;
+}
+
+h3{
+	color: #3c4858;
+}
+
 .container{
 	width: 95%;
 	margin: 0px auto;
 }
 
-
-/* HEADER */
-
-header{
-	height: 480px;
-	background: lightgrey url(/src/images/shop-bg.png);
-}
-
-.header-title{
-	float: left;
-	display: block;
-	margin-top: 20px;
-	font-size: 52px;
-	color: white;
-	font-family: 'Lobster', cursive;
-}
-
-.header-menu{
-	float: right;
-	display: block;
-	margin-top: 30px;
-	font-size: 16px;
-	text-transform: uppercase;
-}
-
-.header-menu ul li{
-	display: inline-block;
-	list-style-type: none;
-	margin-left: 30px;
-}
-
-.header-menu>ul>li>a{
-	transition: 0.3s;
-}
-
-.header-menu>ul>li>a:hover{
-	color: red;
-}
-
-.active-menu-link{
-	padding-bottom: 5px;	
-	border-bottom: solid 1px;
-	color: red;
-}
 
 .clear-line{
 	clear: both;
@@ -204,38 +177,47 @@ header{
 /* WRAPPER */
 
 .main-wrapper{
-	margin: -100px 30px 0px;
-	position: relative;
-	background-color: white;
-	border: 0px solid white;
-	border-radius: 10px 10px 0 0;
-	box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.2);
+	display: flex;
+	justify-content: space-around;
+	text-align: center;
 }
 
 /* INPUTS */
 
 .inputs{
-	padding-top: 50px;
-	padding-left: 50px;
+	display: block;
+	min-width: 250px;
+	margin-top: 30px;
+	padding-left: 50px; 
+	text-align: left;
 }
 
 
 /* NEW PRODUCT*/
 
-.new_products{
-	clear: both;
-	margin-top: 100px; 
-	margin-bottom: 100px;
-	padding-top: 70px;
-	text-align: center;
+
+.products .container{
+	width:100%;
+}
+
+.products{
+	display: block;
+	margin-top: 30px; 
+	margin-bottom: 250px;
+	/* padding-top: 70px; */
+	text-align: left;
 	color: #3c4858;
 }
 
-.new_products a{
+.products a{
 	color: #3c4858;
 }
 
-.new_products img{
+.products h2{
+	text-align: left;
+}
+
+.products img{
 	width: 240px;
 }
 
@@ -247,55 +229,19 @@ header{
 	height: 350px;
 	display: inline-block;
 	margin-right: 50px; 
+	margin-bottom: 50px;
+	text-align: center;
 }
 
 .product .price{
 	margin-bottom: 10px;
 }
 
-.product .purchase{
+/* .product .purchase{
 	border: 1px solid black;
 	border-radius: 10px;
 	padding: 5px;
-}
-
-
-/* FOOTER */
-
-footer{
-	clear: both;
-	position: absolute;
-	width: 100%;
-	height: 100px;
-	bottom: 0;
-	color: #acacac;
-	background-color: #323437;
-}
-
-footer a{
-	color: #acacac;
-}
-
-footer a:hover{
-	text-decoration: underline;
-}
-
-footer ul{
-	list-style-type: none;
-	margin-top: 35px;
-}
-
-footer ul li{
-	display: inline-block;
-	padding: 0 10px; 
-	border-right: 1px solid;
-}
-
-footer ul li:last-child{
-	border-right: 0;
-}
-
-
+} */
 
 
 /* Large Devices, Wide Screens */
@@ -305,12 +251,16 @@ footer ul li:last-child{
 		font-size: 32px;
 	}
 
+	h2{
+		font-size: 28px;
+	}
+
 	header{
 		height: 360px;
 	}
 
-	.new_products{
-		margin-top: 50px; 
+	.products{
+		margin-top: 30px; 
 		margin-bottom: 0;
 	}
 
@@ -322,11 +272,21 @@ footer ul li:last-child{
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
-	
+	.main-wrapper{
+		flex-direction: column;
+	}
+	.products{
+		text-align: center;
+	}
+	.products .container{
+		width: 95%;
+	}
 }	
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
+	
+	
 	
 }
 

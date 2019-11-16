@@ -7,15 +7,16 @@
 				<div class="header-title">CardHouse</div>
 				<div class="header-menu">
 					<ul>
-						<li><a class="active-menu-link"  href="#">Головна</a></li>
-						<li><a href="shop.html">Магазин</a></li>
-						<li><a href="#">Про Нас</a></li>
-						<li><a href="contacts.html">Контакти</a></li>
+						<li><router-link :to="'/main'">Головна</router-link></li>
+						<li><router-link :to="'/shop'">Магазин</router-link></li>
+						<li><router-link :to="'/shop1'">Про Нас</router-link></li>
+						<li><router-link :to="'/shop2'">Контакти</router-link></li>
+						<li><router-link :to="'/cart'">Корзина</router-link></li>
 					</ul>
 				</div>
 				<div class="clear-line"></div>
 				<div class="header-button">
-					<router-link :to="'/shop'" class="button-text" href="shop.html">ДО МАГАЗИНУ</router-link>
+					<router-link :to="'/shop'" class="button-text">ДО МАГАЗИНУ</router-link>
 				</div>
 
 			</div>
@@ -87,7 +88,7 @@
 								<div class="txt">
 									<a class="txt1" href = "">{{product.name.toUpperCase()}}</a>
 									<div class="price">{{product.price + " грн"}}</div>
-									<a class="purchase" href="">В КОРЗИНУ</a>
+									<button @click="addProductToCart(product)" class="purchase">В КОРЗИНУ</button>
 								</div>
 							</div>
 
@@ -99,7 +100,11 @@
 			<div class="slider_parallax">
 				<div class="slider-wrapper">
 					<div class="container">
-						<div class="sl">
+						<div>
+						    <div class="txt1">КОМБІНАЦІЇ</div>
+						    <div class="txt2">Количество комбинаций в стандартной игральной колоде равно 52!, или 8×10<sup>67</sup></div>
+						</div>
+						<!-- <div id="myslider" class="sl">
 						    <div class="sl__slide">
 						    	<div class="txt1">КОМБІНАЦІЇ</div>
 						    	<div class="txt2">Количество комбинаций в стандартной игральной колоде равно 52!, или 8×10<sup>67</sup></div>
@@ -113,7 +118,7 @@
 						    	<div class="txt1">«Гра не коштує свічок»</div>
 						    	<div class="txt2">Выражение «игра не стоит свеч» пришло из речи картёжников, говоривших так об очень небольшом выигрыше, который не окупает стоимости свечей, сгоревших во время игры.</div>
 						    </div>
-						  </div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -138,30 +143,35 @@
 				</div>
 			</div>
 
-			<footer>
-				<div class="container">
-					<ul>
-						<li>Copyright © 2019 <b>CARDHOUSE</b></li>
-						<li><a href="">Privacy Policy</a></li>
-						<li><a href="">About Us</a></li>
-						<li><a href="">FAQ</a></li>
-						<li><a href="">Contact Support</a></li>
-					</ul>
-				</div>
-			</footer>
-
-		</div>         
+		<Footer/>
+		</div>       
     </div>
 </template>
 <script>
+
+	// import simpleslider from 'simple-slider'
+	
+	// simpleslider.getSlider({
+	// 	container: document.getElementById('myslider'),
+	// 	transitionTime:1,
+	// 	delay:3.5
+	// });
+
     import Vue from 'vue'
     import Vuex from 'vuex'
     import axios from 'axios'
-    import VueAxios from 'vue-axios'
+	import VueAxios from 'vue-axios'
+	
+	import Header from './Header.vue'
+	import Footer from './Footer.vue'
 
     Vue.use(VueAxios, axios)
 
     export default {
+		components : {
+			Header,
+			Footer
+		},
         data: function () {
             return {
                 productsList : []
@@ -174,6 +184,9 @@
             })
         },
         methods : {
+			addProductToCart(value){
+				this.$store.commit('addProductToCart', value);
+			}
         },
         computed: {
 			sortProduct : function(){
@@ -181,38 +194,6 @@
 			}
         }
 	}
-
-
-	 var $ = require("jquery")(window);
-	 const jQuery = require('jquery')
-
-	jQuery(document).ready(function($) {
-
-  $('.sl').slick({
-   	autoplay: true,
-   	autoplaySpeed: 2500,
-   	speed: 1000,
-   	dots: false,
-   	arrows: false,
-   	pauseOnHover: true,
-   	//dotsClass: "my-dots sl-dots"
-   	
-   });
-
-  $('.multiple-items').slick({
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 1500,
-    speed: 1000,
-    dots: true,
-    arrows: true,
-    pauseOnHover: true,
-    //dotsClass: "my-dots"
-  });
-
-});
 </script>
 
 <style scoped>
@@ -224,94 +205,78 @@ body{
 	background-color: #E0E0E0;
 }
 
-a{
-	color: white;
-	text-decoration: none;
-}
-
 h1{
 	color: #3c4858;
 	font-size: 44px;
 }
 
-.container{
-	width: 95%;
-	margin: 0px auto;
-}
+.products{
+	position: relative;
 
+}
 
 /* HEADER */
 
-header{
-	height: 1080px;
-	background: lightgrey url(/src/images/bg2.jpg) top no-repeat;
-	background-size: cover;	
-}
 
-.header-title{
-	float: left;
-	display: block;
-	margin-top: 20px;
-	font-size: 52px;
-	color: white;
-	font-family: 'Lobster', cursive;
-}
-
-.header-menu{
-	float: right;
-	display: block;
-	margin-top: 30px;
-	font-size: 16px;
-	text-transform: uppercase;
-}
-
-.header-menu ul li{
-	display: inline-block;
-	list-style-type: none;
-	margin-left: 30px;
-}
-
-.header-menu>ul>li>a{
-	transition: 0.3s;
-}
-
-.header-menu>ul>li>a:hover{
-	color: red;
-}
-
-.active-menu-link{
-	padding-bottom: 5px;	
-	border-bottom: solid 1px;
-	color: red;
-}
-
-.clear-line{
-	clear: both;
-}
-
-header .header-button{
-	clear: both;
-	text-align: center;
-	margin-top: 600px;
-}
-
-header .button-text{
-	color: white;
-	background-color: black;
-	border: solid 2px white;
-	border-radius: 50px;
-	padding: 25px 45px;
-	font-size: 54px;
-	transition: 0.5s;
-	opacity: 0.9;
-}
-
-header .button-text:hover{
-	border: solid 2px black;
-	background-color: white;
-	color: black;
-}
-
+	header{
+		height: 1080px;
+		background: lightgrey url(/src/images/bg2.jpg) top no-repeat;
+		background-size: cover;	
+	}
+	.header-title{
+		float: left;
+		display: block;
+		margin-top: 20px;
+		font-size: 52px;
+		color: white;
+		font-family: 'Lobster', cursive;
+	}
+	.header-menu{
+		float: right;
+		display: block;
+		margin-top: 30px;
+		font-size: 16px;
+		text-transform: uppercase;
+	}
+	.header-menu ul li{
+		display: inline-block;
+		list-style-type: none;
+		margin-left: 30px;
+	}
+	.header-menu>ul>li>a{
+		transition: 0.3s;
+	}
+	.header-menu>ul>li>a:hover{
+		color: red;
+	}
+	.active-menu-link{
+		padding-bottom: 5px;	
+		border-bottom: solid 1px;
+		color: red;
+	}
+	.clear-line{
+		clear: both;
+	}
+	header .header-button{
+		clear: both;
+		text-align: center;
+		margin-top: 600px;
+	}
+	header .button-text{
+		color: white;
+		background-color: black;
+		border: solid 2px white;
+		border-radius: 50px;
+		padding: 25px 45px;
+		font-size: 54px;
+		transition: 0.5s;
+		opacity: 0.9;
+	}
+	header .button-text:hover{
+		border: solid 2px black;
+		background-color: white;
+		color: black;
+	}
 
 /* WRAPPER */
 
@@ -325,14 +290,6 @@ header .button-text:hover{
 }
 
 /* advantages */
-
-.advantages{
-
-}
-
-.row{
-	
-}
 
 .col-3{
 	width: 33%;
@@ -380,7 +337,7 @@ header .button-text:hover{
   background-image: url("/src/images/bg3.jpg");
 
   height: 720px;
-  margin-top: 70px;
+  margin-top: 100px;
   
   background-attachment: fixed;
   background-position: top;
@@ -408,34 +365,6 @@ header .button-text:hover{
 	color: #3c4858;
 }
 
-.new_products a{
-	color: #3c4858;
-}
-
-.new_products img{
-	width: 240px;
-}
-
-.buy-product_button_text{
-	margin: 0;
-}
-
-.product{
-	height: 350px;
-	display: inline-block;
-	margin-top: 70px;
-	margin-right: 50px; 
-}
-
-.product .price{
-	margin-bottom: 10px;
-}
-
-.product .purchase{
-	border: 1px solid black;
-	border-radius: 10px;
-	padding: 5px;
-}
 
 /* SLIDER */
 
@@ -448,6 +377,11 @@ header .button-text:hover{
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
+
+}
+
+.slider_parallax .container{
+	padding-top: 160px;
 }
 
 .parallax .slider-wrapper {
@@ -524,40 +458,6 @@ header .button-text:hover{
 }
 
 
-/* FOOTER */
-
-footer{
-	clear: both;
-	position: absolute;
-	width: 100%;
-	height: 100px;
-	bottom: 0;
-	color: #acacac;
-	background-color: #323437;
-}
-
-footer a{
-	color: #acacac;
-}
-
-footer a:hover{
-	text-decoration: underline;
-}
-
-footer ul{
-	list-style-type: none;
-	margin-top: 35px;
-}
-
-footer ul li{
-	display: inline-block;
-	padding: 0 10px; 
-	border-right: 1px solid;
-}
-
-footer ul li:last-child{
-	border-right: 0;
-}
 
 
 
@@ -582,8 +482,13 @@ footer ul li:last-child{
 		font-size: 48px;
 	}
 
+	.col-3{
+		margin-top: 0;
+	}
+
 	.made-in_parallax{
 		height: 500px;
+		margin-top: 50px;
 	}
 
 	.parallax-text{
