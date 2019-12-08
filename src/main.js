@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 
 import App from './components/App.vue'
+import Start from './components/Start.vue'
 import ProductInfo from './components/ProductInfo.vue'
 import ProductsList from './components/ProductsList.vue'
 import Cart from './components/Cart.vue'
@@ -11,15 +12,18 @@ import AddProduct from './components/AddProduct.vue'
 import Purchase from './components/Purchase.vue'
 import Login from './components/Login.vue'
 import Logout from './components/Logout.vue'
+import AboutUs from './components/AboutUs.vue'
 import store from './store.js'
 
 const routes = [
+    { path: '/', component: Start },
     { path: '/main', component: ProductsList },
     { path: '/shop', component: Shop },
     { path: '/purchase', component: Purchase },
     { path: '/logout', component: Logout },
     { path: '/login', component: Login },
     { path: '/add-product', component: AddProduct },
+    { path: '/about-us', component: AboutUs },
     { path: '/product/:id', component: ProductInfo },
     { path: '/cart', component: Cart },
 ]

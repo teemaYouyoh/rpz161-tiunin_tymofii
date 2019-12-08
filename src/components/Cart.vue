@@ -1,10 +1,10 @@
 <template>
     <div>
         <Header/>
-        <div class="main-wrapper">
+        <main>
             <div class="container">
-                <h2>Корзина</h2>
-                <div class="product_in_cart" v-for="product in productList">
+                <h2 v-if="productList.length != 0">Корзина</h2>
+                <div class="product_in_cart" v-for="product in productList" v-bind:key="product._id">
                     <div class="product_image">
                         <img :src="product.product.image" :alt="product.product.name">
                     </div>
@@ -25,11 +25,18 @@
                         </div>
                     </div>
                 </div>
-            <p class="total-price">Сума : {{totalPrice.toFixed(2)}} грн.</p>   
-            <button class="purchase" @click="finish()">Купить</button>
+                <div v-if="productList.length != 0">
+                    <p class="total-price">Сума : {{totalPrice.toFixed(2)}} грн.</p>   
+                    <button class="purchase" @click="finish()">Купить</button>
+                </div>
+                <div v-else-if="productList.length == 0">
+                    <h2>Корзина порожня</h2> 
+                    <h3>Будь ласка, оберіть товар для покупки.</h3> 
+                    <button class="toShopButton"><router-link :to="'/shop'">До магазину</router-link></button>
+                </div>
         </div>
+        </main>
         <Footer/>
-        </div>
     </div>
 </template>
 
@@ -59,6 +66,7 @@
         },
         mounted : async function(){
             this.productList = await this.$store.getters.getProductList;
+            console.log(this.productList);
             // this.countTotalPrice();          
         },
         methods : {
@@ -102,6 +110,7 @@
 
     .container{        
         padding-top: 20px;
+        margin-bottom: 50px;
     }
 
     .product_in_cart{
@@ -150,14 +159,28 @@
         
     }
 
-    .purchase{
-        margin-bottom: 100px;
-        width: 100px;
-        height: 45px;
-        border-radius: 30px;
-        margin-right: 30px;
-        cursor: pointer;
+    .purchase,
+    .toShopButton{
+        /* border: 1px solid black;
+        border-radius: 10px;
+        padding: 5px; */
+        font-weight: 700;
+    color: white;
+    text-decoration: none;
+    padding: .8em 1em calc(.8em + 3px);
+    border-radius: 3px;
+    background: rgb(64,199,129);
+    box-shadow: 0 -3px rgb(53,167,110) inset;
+    transition: 0.2s;
     }
+    .purchase:hover,
+    .pruchase:active,
+    .toShopButton:hover { background: rgb(53, 167, 110); }
+    .toShopButton:active {
+    background: rgb(33,147,90);
+    box-shadow: 0 3px rgb(33,147,90) inset;
+    }
+
 
     .delete_product{
         margin-left: 20px;

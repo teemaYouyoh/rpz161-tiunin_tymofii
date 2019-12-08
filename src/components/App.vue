@@ -1,16 +1,25 @@
 <template>
-    <div class="main">
-        <div class="content">
+    <div class="wrapper">
             <router-view></router-view>
-        </div>
     </div>
 </template>
 
+<script>
+export default {
+    mounted(){
+        // this.$router.push('/main');
+    }
+}
+</script>
+
 <style>
+
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
     body{
         margin: 0;
         padding: 0;
+        font-family: 'Open Sans', sans-serif;
     }
 
     h1{
@@ -44,24 +53,33 @@
 
     /* MAIN-WRAPPER */
 
-    .main-wrapper{
+    main{
+        display: flex;
+        flex-direction: column;
 
-        margin: -100px 30px 0px;
+        flex: 1 1 auto;
+
+        min-height: 500px;
+        margin: -95px 30px 0px;
         position: relative;
         background-color: white;
         border: 0px solid white;
         border-radius: 10px 10px 0 0;
-        box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.2);
+        box-shadow: 0 0 24px 2px rgba(0,0,0,0.14), 0 0 30px 5px rgba(0,0,0,0.12), 0 0 10px -5px rgba(0,0,0,0.2);
     }
 
 
     /* products */
 
+    .product-row{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
     .product{
-        height: 350px;
-        display: inline-block;
-        margin-top: 70px;
-        margin-right: 50px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .product a{
@@ -73,14 +91,28 @@
     }
 
     .product .price{
-        margin-bottom: 10px;
+        margin: 10px 0;
     }
 
     .product .purchase{
-        /* border: 1px solid black; */
-        border-radius: 10px;
-        padding: 5px;
-    }
+	/* border: 1px solid black;
+	border-radius: 10px;
+	padding: 5px; */
+	  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  padding: .8em 1em calc(.8em + 3px);
+  border-radius: 3px;
+  background: rgb(64,199,129);
+  box-shadow: 0 -3px rgb(53,167,110) inset;
+  transition: 0.2s;
+}
+
+.product .purchase:hover { background: rgb(53, 167, 110); }
+.product .purchase:active {
+  background: rgb(33,147,90);
+  box-shadow: 0 3px rgb(33,147,90) inset;
+}
 
     /* Large Devices, Wide Screens */
 	@media only screen and (max-width : 1366px) {
@@ -91,7 +123,16 @@
         h2{
             font-size: 28px;
         }
-
-	}
+    }
+    /* Small Devices, Tablets */
+    @media only screen and (max-width : 768px) {
+        .product{
+            margin-top : 20px;
+        }
+    }
+    /* Extra Small Devices, Phones */
+    @media only screen and (max-width : 480px) {
+        
+    }
 
 </style>

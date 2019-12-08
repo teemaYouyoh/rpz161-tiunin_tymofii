@@ -21,10 +21,12 @@ export default {
 <style scoped>
   
     footer{
-        position: absolute;
-        width: 100%;
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
         height: 100px;
-        bottom: 0;
+        margin : 0 30px;
+
         color: #acacac;
         background-color: #323437;
     }
@@ -39,7 +41,6 @@ export default {
 
     footer ul{
         list-style-type: none;
-        margin-top: 35px;
     }
 
     footer ul li{

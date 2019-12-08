@@ -1,7 +1,7 @@
 <template>
     <div>
         <Header/>
-            <div class="main-wrapper">
+            <main>
 
                 <div class="product-wrapper">
                     <div class="container">
@@ -45,9 +45,71 @@
                     </div>
                     <!-- <button @click="deleteProduct()">Delete</button> -->
                 </div>
-                <div class="space-line"></div>
+                <div class="products-carousel">
+                    <h2>Рекомендовані товари</h2>
+                    <carousel
+                        :autoplay="true" 
+                        :nav="false" 
+                        :loop="true" 
+                        :items="6" 
+                        :dots="false" 
+                        :autoplayTimeout="3000"
+                        :autoplaySpeed="2000"
+                    >   
+                        <div class="product">
+                            <img :src="productsList[0].image" alt="">
+                            <div class="txt">
+                                <a class="txt1" href = "">{{productsList[0].name.toUpperCase()}}</a>
+                                <div class="price">{{productsList[0].price + " грн"}}</div>
+                                <button @click="addProductToCart(productsList[0])" class="purchase">В КОРЗИНУ</button>
+                            </div>
+                        </div>
+                        <div class="product">
+                            <img :src="productsList[1].image" alt="">
+                            <div class="txt">
+                                <a class="txt1" href = "">{{productsList[1].name.toUpperCase()}}</a>
+                                <div class="price">{{productsList[1].price + " грн"}}</div>
+                                <button @click="addProductToCart(productsList[1])" class="purchase">В КОРЗИНУ</button>
+                            </div>
+                        </div>
+                        <div class="product">
+                            <img :src="productsList[2].image" alt="">
+                            <div class="txt">
+                                <a class="txt1" href = "">{{productsList[2].name.toUpperCase()}}</a>
+                                <div class="price">{{productsList[2].price + " грн"}}</div>
+                                <button @click="addProductToCart(productsList[2])" class="purchase">В КОРЗИНУ</button>
+                            </div>
+                        </div>
+                        <div class="product">
+                            <img :src="productsList[6].image" alt="">
+                            <div class="txt">
+                                <a class="txt1" href = "">{{productsList[6].name.toUpperCase()}}</a>
+                                <div class="price">{{productsList[6].price + " грн"}}</div>
+                                <button @click="addProductToCart(productsList[6])" class="purchase">В КОРЗИНУ</button>
+                            </div>
+                        </div>
+                        <div class="product">
+                            <img :src="productsList[4].image" alt="">
+                            <div class="txt">
+                                <a class="txt1" href = "">{{productsList[4].name.toUpperCase()}}</a>
+                                <div class="price">{{productsList[4].price + " грн"}}</div>
+                                <button @click="addProductToCart(productsList[4])" class="purchase">В КОРЗИНУ</button>
+                            </div>
+                        </div>
+                        <div class="product">
+                            <img :src="productsList[5].image" alt="">
+                            <div class="txt">
+                                <a class="txt1" href = "">{{productsList[5].name.toUpperCase()}}</a>
+                                <div class="price">{{productsList[5].price + " грн"}}</div>
+                                <button @click="addProductToCart(productsList[5])" class="purchase">В КОРЗИНУ</button>
+                            </div>
+                        </div>
+                        
+                    </carousel>
+                </div>
+                
+            </main> 
                 <Footer/>
-            </div> 
         
     </div>
 </template>
@@ -61,26 +123,37 @@
 
     import Header from './Header.vue'
 	import Footer from './Footer.vue'
+    
+	import carousel from 'vue-owl-carousel'
+
 
     Vue.use(VueAxios, axios)
 
     export default {
 		components : {
 			Header,
-			Footer
+			Footer,
+			carousel,
+
 		},
         data: function() {
             return {
-                product: {}
+                product: {},
+                productsList : []
             };
         },
         mounted: function() {
+            Vue.axios.get("http://localhost:3000/tasks/").then(response => {
+                console.log(response.data);
+                this.productsList = response.data;
+            });
             Vue.axios.get("http://localhost:3000/tasks/"+this.$route.params.id).then(response => {
                 console.log(response.data);
                 this.product = response.data;
                 this.product.amount = 1;
                 console.log(response.data);
-            })
+            });
+
               //Number(this.$route.params.id)
         },
         methods : {
@@ -106,7 +179,9 @@
 
 <style scoped>
     
-    
+    .product{
+        text-align: center;
+    }
 
     .product-info{
         display: flex;
@@ -157,6 +232,24 @@
         margin-top: 5px;
     }
 
+      .product-info .product-buy button{
+          margin-right: 20px;
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+        padding: .8em 1em calc(.8em + 3px);
+        border-radius: 3px;
+        background: rgb(64,199,129);
+        box-shadow: 0 -3px rgb(53,167,110) inset;
+        transition: 0.2s;
+        }
+
+    .product-info .product-buy button:hover { background: rgb(53, 167, 110); }
+    .product-info .product-buy button:active {
+        background: rgb(33,147,90);
+        box-shadow: 0 3px rgb(33,147,90) inset;
+    }
+
     .product-info .product-buy{
         display: flex;
         flex-direction: row;
@@ -165,18 +258,17 @@
         margin-top: 50px;
     }
 
-    .product-info .product-buy button{ 
-        width: 100px;
-        height: 45px;
-        border-radius: 30px;
-        margin-right: 30px;
-        cursor: pointer;
-    }
+    
 
     .product-info .product-buy .product-price{
         /* margin-top: 50px; */
         text-align: center;
         font-size: 34px;
+    }
+
+    .products-carousel{
+        margin: 50px 0;
+        padding: 0 20px;
     }
 
     /* .product-info .product_amount{
