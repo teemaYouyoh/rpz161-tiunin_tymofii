@@ -1,0 +1,10 @@
+{"_id":{"$oid":"5dbb0f3796001525e04061f8"},"name":"Bycicle Second","manufacturer":"Bycicle","price":"90","country":"USA","image":"/src/images/bicycle-seconds-cards.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dbb0f6296001525e04061f9"},"name":"Bycicle Standart","manufacturer":"Bycicle","price":"120","country":"USA","image":"/src/images/bicycle-standart-cards.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dbbe86a626e2c27e0630299"},"name":"Bycicle Shadow Master","manufacturer":"Bycicle","price":"300","country":"USA","image":"/src/images/bicycle-shadow_master-cards.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dbbe965626e2c27e063029a"},"name":"Bycicle Archangels","manufacturer":"Bycicle","price":"245","country":"USA","image":"/src/images/bicycle-archangels-cards.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dbbe983626e2c27e063029b"},"name":"Bycicle Steampunk","manufacturer":"Bycicle","price":"230","country":"USA","image":"/src/images/bicycle-steampunk-cards.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dbbe9a7626e2c27e063029c"},"name":"Cartamundi Death Game","manufacturer":"Cartamundi ","price":"110","country":"USA","image":"/src/images/cartamundi-death-game.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dbbeb2c626e2c27e063029d"},"name":"Bee Seconds","manufacturer":"Bee","price":"120","country":"USA","image":"/src/images/bee-standart-cards.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dbbeb59626e2c27e063029e"},"name":"Tally-Ho Circle Back","manufacturer":"Tally-Ho","price":"140","country":"USA","image":"/src/images/tally_ho-circle_back-cards.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dbbebc4626e2c27e063029f"},"name":"Tally-Ho Fan Back","manufacturer":"Tally-Ho","price":"140","country":"USA","image":"/src/images/tally_ho-fan_back-cards.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dbebe475cdd672068b171b3"},"name":"Tally-Ho Fan Back","manufacturer":"Tally-Ho","price":"140","country":"USA","image":"/src/images/tally_ho-fan_back-cards.jpg","__v":{"$numberInt":"0"}}
